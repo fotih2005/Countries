@@ -112,6 +112,8 @@ img {
 .hero-section__list{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
     margin: 0;
     padding: 50px 0;
     list-style: none;
@@ -132,19 +134,68 @@ img {
     padding: 0 25px;
 }
 
-@media only screen and (max-width: 700px) {
-    .hero-section__card{
-        margin: 0 auto;
-        width: 400px;
+.white-mode{
+    color: #000;
+}
+
+.white-mode
+.header-section{
+    background: #fff;
+}
+.white-mode
+.hero-section{
+    background-color: #fff;
+}
+.white-mode
+.hero-section__card{
+    background-color: rgb(170, 170, 170);
+}
+.white-mode
+.hero-section__filter-input{
+    background-color: rgb(209, 209, 209);
+}
+.white-mode
+.hero-section__select{
+    background-color: rgb(209, 209, 209);
+}
+.white-mode
+.hero-section__btn{
+    background-color: rgb(209, 209, 209);
+}
+.white-mode
+.header-section__text{
+    color: #000;
+}
+
+
+@media only screen and (max-width: 800px) {
+    .hero-section__card:not(:last-child){
+     margin-right: 30px;   
     }
+}
+@media only screen and (max-width: 700px) {
+    /* .hero-section__card{
+        margin: 0 auto;
+        margin-bottom: 50px;
+        width: 400px;
+    } */
+    .hero-section__card:not(:last-child){
+        margin-right: 20px;   
+       }
     .hero-section__list{
         margin: 0;
     }
 }
 @media only screen and (max-width: 500px) {
     .hero-section__card{
-        margin: 0 20px;
-        /* width: 100%; */
+        margin: 0 auto;
+        margin-bottom: 50px;
+        width: 400px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .hero-section__card:not(:last-child){
+        margin-right: 0px;   
     }
     .hero-section__filter-input{
         width: 100%;
