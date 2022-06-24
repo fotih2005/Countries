@@ -58,7 +58,9 @@ if(elSearch){
 elFormBtn.addEventListener("click", (e) => {
     e.preventDefault()
     mekeRequest(CONFIG + '/region/' + filterRegion.value, renderCountries, empty)
-    console.log(filterRegion.value);
+    if(filterRegion.value === 'All'){
+        getAllCountries()
+    }
 })
 
 btn.addEventListener('click', () => {
