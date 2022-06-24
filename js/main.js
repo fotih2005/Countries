@@ -1,44 +1,74 @@
-const list = document.querySelector(".hero-section__list")
+const CONFIG = 'https://restcountries.com/v3.1/'
+const elList = document.querySelector(".hero-section__list")
 const template = document.querySelector(".template").content
-const frgament = document.createDocumentFragment()
 const elSearch = document.querySelector(".hero-section__filter-input")
+const elFormBtn = document.querySelector(".hero-section__btn")
+const filterRegion = document.querySelector(".hero-section__select")
 const btn = document.querySelector(".header-section__btn")
-const body = document.querySelector(".body")
-const btnText = document.querySelector(".header-section__text")
 
-let dataCountry = []
 
-fetch('https://restcountries.com/v3.1/all')
-.then(res => {res.json()
+function mekeRequest(url, successFn, erorFn){
+    elList.innerHTML = "<div class=\"loading-container\"><div class=\"loading\"></div><div id=\"loading-text\">loading</div></div>"
+    fetch(url)
+    .then(res => res.json())
     .then(data => {
-        dataCountry = data;
-        renderCountries(dataCountry)
+        if(data.length > 0) successFn(data)
+        else erorFn()
     })
-});
-function renderCountries (CountriesArr){
-    list.innerHTML = null
-    
-    CountriesArr.forEach(Countrie => {
-        const newTemp = template.cloneNode(true)
-        newTemp.querySelector(".hero-section__item-img").src = Countrie.flags.svg
-        newTemp.querySelector(".hero-section__item-title").textContent = Countrie.name.common + ' ' + Countrie.fifa
-        newTemp.querySelector("#population").textContent = 'Population: '+ Countrie.population
-        newTemp.querySelector("#region").textContent = 'Region: ' + Countrie.region
-        newTemp.querySelector("#capital").textContent = 'capital: ' + Countrie.capital
-        newTemp.querySelector("#borders").textContent = Countrie.borders
-        frgament.append(newTemp)
-    });
-    list.append(frgament)
 }
 
-elSearch.addEventListener('input', (e)  => {
-    const elSearchValue = new RegExp(e.target.value, "gi")
 
-    const filterCountries = dataCountry.filter((country) => country.name.common.match(elSearchValue))
-    renderCountries(filterCountries)
+function renderCountries (countries){
+    elList.innerHTML = ''
+    
+    const frgament = document.createDocumentFragment()
+    for (const country of countries) {
+        const newTemp = template.cloneNode(true)
+        newTemp.querySelector(".hero-section__item-img").src = country.flags.svg
+        newTemp.querySelector(".hero-section__item-title").textContent = country.name.common + ' ' + country.fifa
+        newTemp.querySelector("#population").textContent = 'Population: '+ country.population
+        newTemp.querySelector("#region").textContent = 'Region: ' + country.region
+        newTemp.querySelector("#capital").textContent = 'capital: ' + country.capital
+        newTemp.querySelector("#borders").textContent = country.borders
+        frgament.append(newTemp)
+    }
+    elList.append(frgament)
+}
+
+function empty (){
+    elList.innerHTML = "<p>COUNTRY NOT FOUND :(</p>"
+}
+
+function getAllCountries(){
+    mekeRequest(CONFIG + '/all',renderCountries, empty)
+}
+getAllCountries()
+
+if(elSearch){
+    elSearch.addEventListener('input', () =>{
+        if(elSearch.value.trim()){
+            mekeRequest(CONFIG + '/name/' + elSearch.value, renderCountries, empty)
+        } else{
+            mekeRequest(CONFIG + '/all/', renderCountries, empty)
+        }
+    })
+}
+
+
+elFormBtn.addEventListener("click", (e) => {
+    e.preventDefault()
+    mekeRequest(CONFIG + '/region/' + filterRegion.value, renderCountries, empty)
+    console.log(filterRegion.value);
 })
 
 btn.addEventListener('click', () => {
-    body.classList.toggle('white-mode')
-    btnText.textContent = 'Dark mode'
+    document.querySelector('.body').classList.toggle("white-mode")
+    if(btn.textContent ==='Dark mode'){
+        btn.textContent = 'Light Mode'
+    } else{
+        btn.textContent = 'Dark mode'
+    }
 })
+
+
+
