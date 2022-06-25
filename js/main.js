@@ -16,8 +16,7 @@ function mekeRequest(url, successFn, erorFn){
         else erorFn()
     })
 }
-
-
+// render function
 function renderCountries (countries){
     elList.innerHTML = ''
     
@@ -34,16 +33,14 @@ function renderCountries (countries){
     }
     elList.append(frgament)
 }
-
 function empty (){
-    elList.innerHTML = "<p>COUNTRY NOT FOUND :(</p>"
+    elList.innerHTML = "<p class=\"eror\">COUNTRY NOT FOUND :(</p>"
 }
-
 function getAllCountries(){
     mekeRequest(CONFIG + '/all',renderCountries, empty)
 }
 getAllCountries()
-
+// search
 if(elSearch){
     elSearch.addEventListener('input', () =>{
         if(elSearch.value.trim()){
@@ -53,8 +50,7 @@ if(elSearch){
         }
     })
 }
-
-
+// filter by select
 elFormBtn.addEventListener("click", (e) => {
     e.preventDefault()
     mekeRequest(CONFIG + '/region/' + filterRegion.value, renderCountries, empty)
@@ -62,7 +58,7 @@ elFormBtn.addEventListener("click", (e) => {
         getAllCountries()
     }
 })
-
+// dark and light mode btn
 btn.addEventListener('click', () => {
     document.querySelector('.body').classList.toggle("white-mode")
     if(btn.textContent ==='Dark mode'){

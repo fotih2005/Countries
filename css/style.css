@@ -249,6 +249,11 @@ img {
             top: 0;
             width: 100px;
         }
+
+.eror{
+    font-size: 50px;
+    color: rgb(255, 0, 0);
+}
 .white-mode{
     color: #000;
 }
